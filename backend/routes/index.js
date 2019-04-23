@@ -15,6 +15,7 @@ router.post('/api/addtodo', (req, res) => {
   var obj = req.body;
 
   obj.text = obj.text.replace("'", "''");
+
   var output = {
     "response_type": "in_channel",
     "text": "",
@@ -52,7 +53,6 @@ router.post('/api/listtodos', (req, res) => {
   console.log("Data Coming");
   console.log(req.body);
   var obj = req.body;
-  console.log(obj.text);
   obj.text = obj.text.replace("'", "''");
   var output = {
     "response_type": "in_channel",
