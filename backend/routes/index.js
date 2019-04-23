@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
 const connection = require('../config/dbconn');
 
@@ -30,8 +29,8 @@ router.post('/api/addtodo', (req, res) => {
     else {
       connection.query("insert into todo(teamid,teamdomain,channelid,channelname,userid,username,todomessage,status) values('"+obj.team_id+"','"+obj.team_domain+"','"+obj.channel_id+"','"+obj.channel_name+"','"+obj.user_id+"','"+obj.user_name+"','"+obj.text+"','pending');", function(err, rows){
         if (err) throw err;
-        output.text = "ToDo Added";
-        output.attachments[0].text = "This Todo has been added to the channels list";
+        output.text = "Added TODO for '"+obj.text+"'";
+        output.attachments[0].text = "This Todo has been added to the channel's TODOs list";
         res.send(output);
       });
     }
@@ -81,13 +80,14 @@ router.post('/api/marktodo', (req, res) => {
   connection.query("select todomessage,username,status from todo where teamid='"+obj.team_id+"' and channelid='"+obj.channel_id+"' and todomessage='"+obj.text+"' and status='pending';", function(err, rows){
     if (rows.length>0) {
       connection.query("update todo set status='done' where teamid='"+obj.team_id+"' and channelid='"+obj.channel_id+"' and todomessage='"+obj.text+"';", function(err, rows){
-        output.text = "Marked";
-        output.attachments[0].text = "Marked as Done";
+        output.text = "Removed TODO for '"+obj.text+"'";
+        output.attachments[0].text = "This TODO has been marked as done.";
         res.send(output);
       });
     }
     else {
-      output.text = "This Todo is not in the pending todo's channel list.";
+      output.text = "TODO Not Found or Invalid";
+      output.attachments[0].text = "This Todo is not in the pending todo's channel list.";
       res.send(output);
     }
   });
