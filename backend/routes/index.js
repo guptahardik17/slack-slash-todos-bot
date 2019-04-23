@@ -23,6 +23,7 @@ router.post('/api/addtodo', (req, res) => {
   if(obj.text==""){
     output.text = "Invalid Request";
     output.attachments[0].text = "Please add a todo name. (eg. /addtodo Create Game)";
+    res.send(output);
   }
   else{
     connection.query("select todomessage,username from todo where teamid='"+obj.team_id+"' and channelid='"+obj.channel_id+"' and todomessage='"+obj.text+"' and status='pending';", function(err, rows){
@@ -87,6 +88,7 @@ router.post('/api/marktodo', (req, res) => {
   if(obj.text==""){
     output.text = "Invalid Request";
     output.attachments[0].text = "Please add a todo name. (eg. /marktodo Create Game)";
+    res.send(output);
   }
   else{
     connection.query("select todomessage,username,status from todo where teamid='"+obj.team_id+"' and channelid='"+obj.channel_id+"' and todomessage='"+obj.text+"' and status='pending';", function(err, rows){
