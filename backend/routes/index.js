@@ -14,6 +14,7 @@ router.post('/api/addtodo', (req, res) => {
   console.log(req.body);
   var obj = req.body;
 
+  obj.text = obj.text.replace("'", "''");
   var output = {
     "response_type": "in_channel",
     "text": "",
@@ -51,7 +52,8 @@ router.post('/api/listtodos', (req, res) => {
   console.log("Data Coming");
   console.log(req.body);
   var obj = req.body;
-
+  console.log(obj.text);
+  obj.text = obj.text.replace("'", "''");
   var output = {
     "response_type": "in_channel",
     "text": "",
@@ -84,7 +86,7 @@ router.post('/api/marktodo', (req, res) => {
     "text": "",
     "attachments": [{"text":""}]
   }
-
+  obj.text = obj.text.replace("'", "''");
   if(obj.text==""){
     output.text = "Invalid Request";
     output.attachments[0].text = "Please add a todo name. (eg. /marktodo Create Game)";
